@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import util.YouDaoUtil;
 
 public class HttpTestAction extends AnAction {
 
@@ -22,29 +23,36 @@ public class HttpTestAction extends AnAction {
 
         String selectText = selectionModel.getSelectedText();
 
-        if(StringUtil.isEmpty(selectText)){
+        if (StringUtil.isEmpty(selectText)) {
             return;
         }
 
         System.out.println(selectText);
 
-        OkHttpClient client = new OkHttpClient();
-
-        String translateApi = "https://openapi.youdao.com/api";
-
-        String url = "https://searchcode.com/api/jsonp_codesearch_I/?callback=code&q="+selectText;
-
-        Request request = new Request.Builder()
-            .url(url)
-            .build();
-
         try {
-            Response response = client.newCall(request).execute();
-
-            assert response.body() != null;
-            System.out.println(response.body().string());
+            String result = YouDaoUtil.query(selectText);
+            System.out.println(result);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+
+//        OkHttpClient client = new OkHttpClient();
+//
+//        String translateApi = "https://openapi.youdao.com/api";
+//
+//        String url = "https://searchcode.com/api/jsonp_codesearch_I/?callback=code&q="+selectText;
+//
+//        Request request = new Request.Builder()
+//            .url(url)
+//            .build();
+//
+//        try {
+//            Response response = client.newCall(request).execute();
+//
+//            assert response.body() != null;
+//            System.out.println(response.body().string());
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        }
     }
 }
