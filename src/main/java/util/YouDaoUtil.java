@@ -1,16 +1,11 @@
 package util;
 
-import domain.YouDaoQuery;
 import java.io.*;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Map.Entry;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,10 +18,34 @@ import org.apache.http.util.EntityUtils;
 public class YouDaoUtil {
 
     public static final String PROPERTY_RESOURCE_LOCATION = "configure.properties";
+    /**
+     * tSpeakUrl : http://openapi.youdao.com/ttsapi?q=repeat&langType=en&sign=EAA3753AF1A014959A08FD8458C9F12D&salt=1547829523287&voice=4&format=mp3&appKey=1a797e22a80daabd
+     * web : [{"value":["REPEAT","repetition","duplication","Redo"],"key":"重复"},{"value":["repeat","repetition"],"key":"重覆"},{"value":["repeatability","repeability","RSD","Reproducibility"],"key":"重复性"}]
+     * query : 重复
+     * translation : ["repeat"]
+     * errorCode : 0
+     * dict : {"url":"yddict://m.youdao.com/dict?le=eng&q=%E9%87%8D%E5%A4%8D"}
+     * webdict : {"url":"http://m.youdao.com/dict?le=eng&q=%E9%87%8D%E5%A4%8D"}
+     * basic : {"explains":["repetition"]}
+     * l : zh-CHS2EN
+     * speakUrl : http://openapi.youdao.com/ttsapi?q=%E9%87%8D%E5%A4%8D&langType=zh-CHS&sign=B11D679A554019DCAA8F5BF0C13B00EA&salt=1547829523287&voice=4&format=mp3&appKey=1a797e22a80daabd
+     */
+
+    private String tSpeakUrl;
+    private String query;
+    private String errorCode;
+    private DictBean dict;
+    private WebdictBean webdict;
+    private BasicBean basic;
+    private String l;
+    private String speakUrl;
+    private List<WebBean> web;
+    private List<String> translation;
 
     public static String query(String str) throws IOException {
 
-        Map<String, String> paramMap = loadProperty();
+//        Map<String, String> paramMap = loadProperty();
+        Map<String, String> paramMap = new HashMap<>();
 
         String result = null;
 
@@ -53,7 +72,11 @@ public class YouDaoUtil {
 //        if (paramMap.containsKey("secret")) {
 //            query.setSecret(paramMap.get("secret"));
 //        }
-
+        paramMap.put("url", "https://openapi.youdao.com/api");
+        paramMap.put("appKey", "1a797e22a80daabd");
+        paramMap.put("secret", "MYtWzgtBQZVZdorPcoYHnDcGyVo9LVtp");
+        paramMap.put("from", "auto");
+        paramMap.put("to", "EN");
         String salt = String.valueOf(System.currentTimeMillis());
         paramMap.put("salt", salt);
         paramMap.put("sign", md5(paramMap.get("appKey") + str + salt + paramMap.get("secret")));
@@ -169,4 +192,157 @@ public class YouDaoUtil {
         }
     }
 
+    public String getTSpeakUrl() {
+        return tSpeakUrl;
+    }
+
+    public void setTSpeakUrl(String tSpeakUrl) {
+        this.tSpeakUrl = tSpeakUrl;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public DictBean getDict() {
+        return dict;
+    }
+
+    public void setDict(DictBean dict) {
+        this.dict = dict;
+    }
+
+    public WebdictBean getWebdict() {
+        return webdict;
+    }
+
+    public void setWebdict(WebdictBean webdict) {
+        this.webdict = webdict;
+    }
+
+    public BasicBean getBasic() {
+        return basic;
+    }
+
+    public void setBasic(BasicBean basic) {
+        this.basic = basic;
+    }
+
+    public String getL() {
+        return l;
+    }
+
+    public void setL(String l) {
+        this.l = l;
+    }
+
+    public String getSpeakUrl() {
+        return speakUrl;
+    }
+
+    public void setSpeakUrl(String speakUrl) {
+        this.speakUrl = speakUrl;
+    }
+
+    public List<WebBean> getWeb() {
+        return web;
+    }
+
+    public void setWeb(List<WebBean> web) {
+        this.web = web;
+    }
+
+    public List<String> getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(List<String> translation) {
+        this.translation = translation;
+    }
+
+    public static class DictBean {
+
+        /**
+         * url : yddict://m.youdao.com/dict?le=eng&q=%E9%87%8D%E5%A4%8D
+         */
+
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
+    public static class WebdictBean {
+
+        /**
+         * url : http://m.youdao.com/dict?le=eng&q=%E9%87%8D%E5%A4%8D
+         */
+
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
+    public static class BasicBean {
+
+        private List<String> explains;
+
+        public List<String> getExplains() {
+            return explains;
+        }
+
+        public void setExplains(List<String> explains) {
+            this.explains = explains;
+        }
+    }
+
+    public static class WebBean {
+
+        /**
+         * value : ["REPEAT","repetition","duplication","Redo"]
+         * key : 重复
+         */
+
+        private String key;
+        private List<String> value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public List<String> getValue() {
+            return value;
+        }
+
+        public void setValue(List<String> value) {
+            this.value = value;
+        }
+    }
 }
