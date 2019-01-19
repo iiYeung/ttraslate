@@ -5,9 +5,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.util.text.StringUtil;
 import java.io.IOException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import util.YouDaoUtil;
 
