@@ -20,10 +20,12 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="FirstAction.HttpTestAction" class="HttpTestAction" text="HttpTestAction"
+        <action id="FirstAction.Ttr" class="Ttr" text="Ttr"
           description="My First Plugin">
-            <add-to-group group-id="EditMenu" anchor="after" relative-to-action="$Redo"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl H"/>
+            <!--<add-to-group group-id="EditMenu" anchor="after" relative-to-action="$Redo"/>-->
+            <!--<add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="ClearHighlight"/>-->
+            <add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="KotlinToolsGroup"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q"/>
         </action>
     </actions>
 </idea-plugin>

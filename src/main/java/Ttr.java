@@ -12,20 +12,28 @@ import com.intellij.openapi.ui.popup.BalloonBuilder;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.JBColor;
+import groovy.util.logging.Slf4j;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import util.YouDaoUtil;
 
-public class HttpTestAction extends AnAction {
+@Slf4j
+public class Ttr extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
+
+        //  获取editor对象
         Editor editor = e.getData(PlatformDataKeys.EDITOR);
 
         assert editor != null;
+
+        //  获取选择文本
 
         SelectionModel selectionModel = editor.getSelectionModel();
 
@@ -37,15 +45,14 @@ public class HttpTestAction extends AnAction {
 
         System.out.println(selectText);
 
-        Gson gson = new Gson();
-
         try {
             String result = YouDaoUtil.query(selectText);
-            System.out.println(result);
+
+            System.out.println(selectText);
 
             assert result != null;
 
-            JsonObject jsonObject = gson.fromJson(result, JsonObject.class);
+            JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
 
             if (!Objects.isNull(jsonObject)) {
                 JsonArray array = jsonObject.getAsJsonArray("translation");
@@ -55,19 +62,25 @@ public class HttpTestAction extends AnAction {
                 StringBuilder sb = new StringBuilder();
 
                 while (iterator.hasNext()) {
-                    sb.append(iterator.next()).append(",");
+                    sb.append("<p>")
+                        .append(iterator.next().getAsString())
+                        .append("</p>");
                 }
-
-
-//                Messages.showMessageDialog(e.getData(PlatformDataKeys.PROJECT), s, "codelf",
-//                    Messages.getInformationIcon());
 
                 //  获取默认弹窗
                 JBPopupFactory instance = JBPopupFactory.getInstance();
-                BalloonBuilder builder = instance.createHtmlTextBalloonBuilder(sb.toString(), null,
-                    new JBColor(new Color(188, 238, 188), new Color(73, 120, 73)), null);
 
-                builder.setFadeoutTime(5000)
+                BalloonBuilder builder = instance.createHtmlTextBalloonBuilder(sb.toString(), null,
+                    new JBColor(new Color(242, 242, 242), new Color(190, 190, 190)), null);
+
+                builder
+//                    .setTitle("codelf")
+                    .setClickHandler(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            e.getActionCommand();
+                        }
+                    }, true)
                     .createBalloon()
                     .show(instance.guessBestPopupLocation(editor), Position.below);
 
