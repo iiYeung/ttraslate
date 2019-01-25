@@ -55,9 +55,9 @@ public class Ttr extends AnAction {
             JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
 
             if (!Objects.isNull(jsonObject)) {
-                JsonArray array = jsonObject.getAsJsonArray("translation");
+                JsonArray translation = jsonObject.getAsJsonArray("translation");
 
-                Iterator<JsonElement> iterator = array.iterator();
+                Iterator<JsonElement> iterator = translation.iterator();
 
                 StringBuilder sb = new StringBuilder();
 
@@ -68,6 +68,7 @@ public class Ttr extends AnAction {
                 }
 
                 //  获取默认弹窗
+
                 JBPopupFactory instance = JBPopupFactory.getInstance();
 
                 BalloonBuilder builder = instance.createHtmlTextBalloonBuilder(sb.toString(), null,
