@@ -1,40 +1,58 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.1'
+    id 'org.jetbrains.intellij' version '0.4.2'
 }
 
-group 'com.jet'
+
+apply plugin: 'org.jetbrains.intellij'
+
+group 'com.jetbrains'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-}
 
+}
 dependencies {
+//    classpath "org.jetbrains.intellij.plugins:firstplugin:1.0-SNAPSHOT"
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.11.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.11.0'
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+//}
+
 apply plugin: 'idea'
-apply plugin: 'org.jetbrains.intellij'
+//apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
 intellij {
-    version '2018.3.3'
-//    sandboxDirectory = '$project.buildDir/idea-sandbox'
+    version 'IC-2018.3'
     plugins 'coverage' //Bundled plugin dependencies
-    pluginName 'plugin_name_goes_here'
+    pluginName 'ttraslate'
 }
 
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+     this is my first plugin
+     <br>
+     <em>translate plugin</em>
+     
+      """
 }
 
 publishPlugin {
     username intellijPublishUsername
     password intellijPublishPassword
+    token intellijPublishToken
+//    channels 'nightly'
+//    host 'http://plugins.jetbrains.com'
 }
