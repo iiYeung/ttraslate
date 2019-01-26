@@ -4,5 +4,3 @@
 /gradle
 /$project.buildDir
 .idea/
-gradle.properties
-src/test/

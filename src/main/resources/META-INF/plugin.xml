@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>Ttr</id>
   <name>ttraslate</name>
-  <version>1.0</version>
-  <vendor email="kcyang@gmail.com" url="https://schneidyang.github.io/">ttr</vendor>
+  <version>1.0.1</version>
+  <vendor email="kcyangyi@gmail.com" url="https://schneidyang.github.io/">Tinu</vendor>
 
   <description><![CDATA[
     plugin explain<br>
